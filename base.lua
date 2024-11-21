@@ -1,7 +1,7 @@
--- Chunk Base Info Application for ComputerCraft/CC: Tweaked - CTCL 2024
+-- CCPDA for ComputerCraft/CC: Tweaked - CTCL 2024
 -- Purpose: Main script
 -- Created: November 19, 2024
--- Modified: November 19, 2024
+-- Modified: November 21, 2024
 -- Designed for ComputerCraft 1.100.x 1.16.5; version found in Seaopolis (2021)
 
 require "utils"
@@ -19,7 +19,7 @@ menuButtons = {
 menuSelectedItem = 1;
 
 function writeDefaultConfig ()
-    local f = fs.open("/base/config.json", "w");
+    local f = fs.open("/ccpda/config.json", "w");
     -- Reminder: y is "up/down" in Minecraft
     -- Default is a 512x512x512
     local defaultconfig = [[{
@@ -38,14 +38,14 @@ function writeDefaultConfig ()
     f.close();
 end
 
-if not fileExists("/base/config.json") then
+if not fileExists("/ccpda/config.json") then
     print("config.json does not exist, creating default config");
     writeDefaultConfig();
     -- Exit the script so the user can edit the config
     os.reboot();
 else 
     print("config.json found, starting");
-    config = textutils.unserializeJSON(readFile("/base/config.json"));
+    config = textutils.unserializeJSON(readFile("/ccpda/config.json"));
 end
 
 -- Program loop
@@ -74,7 +74,7 @@ while true do
         menuSelectedItem = menuSelectedItem - 1;
     elseif key == keys.enter then
         mode = menuButtons[menuSelectedItem]["mode"];
-        shell.run("base/app/" .. mode);
+        shell.run("/ccpda/app/" .. mode);
         return
     end
 end

@@ -1,14 +1,14 @@
-require ".base.utils";
+require ".ccpda.utils";
 
-if not fileExists("/base/todo.txt") then
-    f = fs.open("/base/todo.txt", "w");
+if not fileExists("/ccpda/todo.txt") then
+    f = fs.open("/ccpda/todo.txt", "w");
     f.write("");
     f.close();
 end
 
 selectedItem = 1;
 
-items = readFileToLines("/base/todo.txt");
+items = readFileToLines("/ccpda/todo.txt");
 
 while true do
     clear();
@@ -54,6 +54,16 @@ while true do
     elseif key == keys.enter then
         clear();
         term.setCursorPos(1,1);
+        term.write("To-Do - Edit Item")
+        term.setCursorPos(1,2);
+        term.write(string.rep("-", ml));
+        term.setCursorPos(1,3);
+        term.write("- ");
+        local entry = read(nil, nil, nil, items[selectedItem]);
+        items[selectedItem] = entry;
+    elseif key == keys.space then
+        clear();
+        term.setCursorPos(1,1);
         term.write("To-Do - New Item")
         term.setCursorPos(1,2);
         term.write(string.rep("-", ml));
@@ -62,8 +72,7 @@ while true do
         local entry = read();
         items[#items + 1] = entry;
     end
-
-    f = io.open("/base/todo.txt", "w");
+    f = io.open("/ccpda/todo.txt", "w");
     for index, item in pairs(items) do
         f:write(item, "\n");
     end
