@@ -18,13 +18,13 @@ function chunkFromGps ()
     modem = peripheral.wrap(config["base"]["gps"]["side"]);
     x, z, y = gps.locate();
 
-    x = x - config["base"]["gps"]["baseorigin"]["x"];
-    z = z - config["base"]["gps"]["baseorigin"]["y"];
-    y = y - config["base"]["gps"]["baseorigin"]["z"];
+    x = config["base"]["gps"]["baseorigin"]["x"] - x;
+    z = config["base"]["gps"]["baseorigin"]["y"] - z;
+    y = config["base"]["gps"]["baseorigin"]["z"] - y;
 
-    x = math.floor(x / 16);
-    y = math.floor(y / 16);
-    z = math.floor(z / 16);
+    x = math.floor(x / 16) + 1;
+    y = math.floor(y / 16) + 1;
+    z = math.floor(z / 16) + 1;
 
     return x, y, z
 end
