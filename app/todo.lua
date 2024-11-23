@@ -1,5 +1,7 @@
 require ".ccpda.utils";
 
+config = textutils.unserializeJSON(readFile("/ccpda/config.json"));
+
 if not fileExists("/ccpda/todo.txt") then
     f = fs.open("/ccpda/todo.txt", "w");
     f.write("");

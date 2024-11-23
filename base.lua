@@ -23,14 +23,24 @@ function writeDefaultConfig ()
     -- Reminder: y is "up/down" in Minecraft
     -- Default is a 512x512x512
     local defaultconfig = [[{
-    "basesize": {
-        "x": 16,
-        "y": 8,
-        "z": 16
-    },
-    "gps": {
-        "enabled": true,
-        "side": null
+    "base": {
+        "size": {
+            "x": 32,
+            "y": 16,
+            "z": 32
+        },
+        "gps": {
+            "enabled": true,
+            "side": "back",
+            "baseorigin": {
+                "x": 512,
+                "y": 0,
+                "z": 512
+            }
+        },
+        "info": {
+            
+        }
     }
 }
 ]];
