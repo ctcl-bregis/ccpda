@@ -1,8 +1,8 @@
-require ".ccpda.utils";
+os.loadAPI("ccpda/utils.lua")
 
-config = textutils.unserializeJSON(readFile("/ccpda/config.json"));
+config = textutils.unserializeJSON(utils.readFile("/ccpda/config.json"));
 
-if not fileExists("/ccpda/todo.txt") then
+if not utils.fileExists("/ccpda/todo.txt") then
     f = fs.open("/ccpda/todo.txt", "w");
     f.write("");
     f.close();
@@ -10,16 +10,16 @@ end
 
 selectedItem = 1;
 
-items = readFileToLines("/ccpda/todo.txt");
+items = utils.readFileToLines("/ccpda/todo.txt");
 
 while true do
-    clear();
+    utils.clear();
     term.setCursorPos(1,1);
     term.write("To-Do");
-    term.setCursorPos(ml - 9, 1);
+    term.setCursorPos(utils.ml - 9, 1);
     term.write("End - Exit");
     term.setCursorPos(1,2);
-    term.write(string.rep("-", ml));
+    term.write(string.rep("-", utils.ml));
 
     term.setCursorPos(1,3);
 
@@ -54,21 +54,21 @@ while true do
     elseif key == keys.delete then
         table.remove(items, selectedItem);
     elseif key == keys.enter then
-        clear();
+        utils.clear();
         term.setCursorPos(1,1);
         term.write("To-Do - Edit Item")
         term.setCursorPos(1,2);
-        term.write(string.rep("-", ml));
+        term.write(string.rep("-", utils.ml));
         term.setCursorPos(1,3);
         term.write("- ");
         local entry = read(nil, nil, nil, items[selectedItem]);
         items[selectedItem] = entry;
     elseif key == keys.space then
-        clear();
+        utils.clear();
         term.setCursorPos(1,1);
         term.write("To-Do - New Item")
         term.setCursorPos(1,2);
-        term.write(string.rep("-", ml));
+        term.write(string.rep("-", utils.ml));
         term.setCursorPos(1,3);
         term.write("- ");
         local entry = read();

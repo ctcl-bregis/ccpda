@@ -1,10 +1,13 @@
--- CCPDA for ComputerCraft/CC: Tweaked - CTCL 2024
+-- CCPDA for ComputerCraft/CC: Tweaked
 -- Purpose: Main script
 -- Created: November 19, 2024
--- Modified: November 21, 2024
--- Designed for ComputerCraft 1.100.x 1.16.5; version found in Seaopolis (2021)
+-- Modified: January 3, 2025
+-- Designed for and tested with:
+-- ComputerCraft 1.100.x 1.16.5; version found in Seaopolis (2021)
+-- ComputerCraft 1.75 1.7.10
 
-require "utils"
+-- Though deprecated, "require" is not available in the ComputerCraft 1.75 from my testing
+os.loadAPI("ccpda/utils.lua")
 
 menuButtons = {
     {
@@ -48,14 +51,14 @@ function writeDefaultConfig ()
     f.close();
 end
 
-if not fileExists("/ccpda/config.json") then
+if not utils.fileExists("/ccpda/config.json") then
     print("config.json does not exist, creating default config");
     writeDefaultConfig();
     -- Exit the script so the user can edit the config
     os.reboot();
 else 
     print("config.json found, starting");
-    config = textutils.unserializeJSON(readFile("/ccpda/config.json"));
+    config = textutils.unserializeJSON(utils.readFile("/ccpda/config.json"));
 end
 
 -- Program loop
@@ -64,12 +67,12 @@ term.clear();
 while true do
     for index, value in pairs(menuButtons) do
         if index == menuSelectedItem then
-            paintutils.drawFilledBox(1,(index - 1) * 3 + 1,ml,index * 3,colors.white);
+            paintutils.drawFilledBox(1,(index - 1) * 3 + 1,utils.ml,index * 3,colors.white);
             term.setTextColor(colors.black);
             term.setCursorPos(2, (index - 1) * 3 + 2)
             term.write(value["title"])
         else
-            paintutils.drawFilledBox(1,(index - 1) * 3 + 1,ml,index * 3,colors.black);
+            paintutils.drawFilledBox(1,(index - 1) * 3 + 1,utils.ml,index * 3,colors.black);
             term.setTextColor(colors.white);
             term.setCursorPos(2, (index - 1) * 3 + 2)
             term.write(value["title"])

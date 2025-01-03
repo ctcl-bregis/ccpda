@@ -1,10 +1,10 @@
-require ".ccpda.utils";
+os.loadAPI("ccpda/utils.lua")
 
-config = textutils.unserializeJSON(readFile("/ccpda/config.json"));
+config = textutils.unserializeJSON(utils.readFile("/ccpda/config.json"));
 
 -- Offset values for drawing the map
-mapx = math.floor((ml - (7 * 3)) / 2) + 1
-mapy = math.floor((mh - (5 * 3)) / 2) + 2
+mapx = math.floor((utils.ml - (7 * 3)) / 2) + 1
+mapy = math.floor((utils.mh - (5 * 3)) / 2) + 2
 
 curx = 1;
 cury = 1;
@@ -33,13 +33,13 @@ term.setPaletteColor(colors.lightGray, 0x999999);
 term.setPaletteColor(colors.gray, 0x888888);
 
 while true do
-    clear();
+    utils.clear();
     term.setCursorPos(1,1);
     term.write("Base Map");
-    term.setCursorPos(ml - 9, 1);
+    term.setCursorPos(utils.ml - 9, 1);
     term.write("End - Exit");
     term.setCursorPos(1,2);
-    term.write(string.rep("-", ml));
+    term.write(string.rep("-", utils.ml));
     
     c = true
     for x = 0,2 do
@@ -92,11 +92,11 @@ while true do
     end
 
     if key == keys.enter then
-        clear();
+        utils.clear();
         term.setCursorPos(1,1);
         term.write("Chunk " .. curx .. "-" .. cury);
         term.setCursorPos(1,2);
-        term.write(string.rep("-", ml));
+        term.write(string.rep("-", utils.ml));
 
         chunkinfo = config["base"]["info"][curx .. "-" .. cury]
         if chunkinfo then

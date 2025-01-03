@@ -41,12 +41,11 @@ function arrayRemove (t)
 
     for i=1,n do
         if (t[i] == 'deleteme') then
-            -- Move i's kept value to j's position, if it's not already there.
             if (i ~= j) then
                 t[j] = t[i];
                 t[i] = nil;
             end
-            j = j + 1; -- Increment position of where we'll place the next kept value.
+            j = j + 1;
         else
             t[i] = nil;
         end
