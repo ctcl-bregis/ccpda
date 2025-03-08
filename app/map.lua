@@ -1,3 +1,8 @@
+-- CCPDA for ComputerCraft/CC: Tweaked
+-- Purpose: Map
+-- Created: ???, 2024
+-- Modified: March 8, 2025
+
 os.loadAPI("ccpda/utils.lua")
 
 config = textutils.unserializeJSON(utils.readFile("/ccpda/config.json"));
@@ -40,7 +45,7 @@ while true do
     term.write("End - Exit");
     term.setCursorPos(1,2);
     term.write(string.rep("-", utils.ml));
-    
+
     c = true
     for x = 0,2 do
         for y = 0,2 do
@@ -50,13 +55,13 @@ while true do
             else
                 mapcolor = colors.lightGray;
             end
-            
+
             if (curx - 1 + x > 0) and (curx - 1 + x <= curxmax) and (cury - 1 + y > 0) and (cury - 1 + y <= curymax) then
                 paintutils.drawFilledBox((x * 7) + mapx, (y * 5) + mapy, ((x + 1) * 7) + mapx - 1, ((y + 1) * 5) + mapy -1, mapcolor)
                 term.setTextColor(colors.black);
                 term.setCursorPos((x * 7) + mapx, (y * 5) + mapy);
                 term.write(curx - 1 + x .. "-" .. cury - 1 + y);
-            end 
+            end
             c = not c
         end
     end
@@ -84,32 +89,41 @@ while true do
             cury = cury - 1
         end
     elseif key == keys.pageDown then
-        
+        -- Unimplemented
     elseif key == keys.pageUp then
-
+        -- Unimplemented
     elseif key == keys.home then
         curx, cury, curz = chunkFromGps();
     end
 
     if key == keys.enter then
-        utils.clear();
-        term.setCursorPos(1,1);
-        term.write("Chunk " .. curx .. "-" .. cury);
-        term.setCursorPos(1,2);
-        term.write(string.rep("-", utils.ml));
+        while true do
+            utils.clear();
+            term.setCursorPos(1,1);
+            term.write("Chunk " .. curx .. "-" .. cury);
+            term.setCursorPos(1,2);
+            term.write(string.rep("-", utils.ml));
 
-        chunkinfo = config["base"]["info"][curx .. "-" .. cury]
-        if chunkinfo then
-            term.setCursorPos(1,3);
-            term.write("Description:");
-            term.setCursorPos(1,4);
-            term.write(chunkinfo["desc"]);
-        else 
-            term.setCursorPos(1,3);
-            term.write("No information found");
+            
+            if utils.fileExists("/ccpda/data/" .. curx .. "-" .. cury .. ".txt") then
+                chunkinfo = utils.readFileToLines("/ccpda/data/" .. curx .. "-" .. cury .. ".txt");
+                term.setCursorPos(1,3);
+                utils.writeMultiline(chunkinfo);
+            
+                term.setCursorPos(1,utils.mh - 1);
+            else
+                term.setCursorPos(1,3);
+                term.write("No information found");
+            end
+
+            event, key, held = os.pullEvent("key");
+
+            if key == keys.space then
+                utils.clear();
+                shell.run("edit /ccpda/data/" .. curx .. "-" .. cury .. ".txt");
+            elseif key == keys["enter"] then
+                break;
+            end
         end
-
-        event, key, held = os.pullEvent("key");
     end
-
 end

@@ -1,10 +1,9 @@
 -- CCPDA for ComputerCraft/CC: Tweaked
 -- Purpose: Main script
 -- Created: November 19, 2024
--- Modified: January 3, 2025
+-- Modified: March 8, 2025
 -- Designed for and tested with:
 -- ComputerCraft 1.100.x 1.16.5; version found in Seaopolis (2021)
--- ComputerCraft 1.75 1.7.10
 
 -- Though deprecated, "require" is not available in the ComputerCraft 1.75 from my testing
 os.loadAPI("ccpda/utils.lua")
@@ -21,8 +20,10 @@ menuButtons = {
 }
 menuSelectedItem = 1;
 
-function writeDefaultConfig ()
+if not utils.fileExists("/ccpda/config.json") then
+    print("config.json does not exist, creating default config");
     local f = fs.open("/ccpda/config.json", "w");
+    -- TODO: Have a separate file for storing data and instead have config.json read-only
     -- Reminder: y is "up/down" in Minecraft
     -- Default is a 512x512x512
     local defaultconfig = [[{
@@ -40,25 +41,22 @@ function writeDefaultConfig ()
                 "y": 0,
                 "z": 512
             }
-        },
-        "info": {
-            
         }
     }
 }
 ]];
     f.write(defaultconfig);
     f.close();
-end
-
-if not utils.fileExists("/ccpda/config.json") then
-    print("config.json does not exist, creating default config");
-    writeDefaultConfig();
     -- Exit the script so the user can edit the config
-    os.reboot();
-else 
+    print("config.json can now be edited");
+    shell.exit();
+else
     print("config.json found, starting");
     config = textutils.unserializeJSON(utils.readFile("/ccpda/config.json"));
+end
+
+if not fs.exists("/ccpda/data/") then
+    fs.makeDir("/ccpda/data/");
 end
 
 -- Program loop

@@ -6,6 +6,8 @@
 -- ComputerCraft 1.100.x 1.16.5; version found in Seaopolis (2021)
 -- ComputerCraft 1.75 1.7.10
 
+-- CURRENTLY UNFINISHED
+
 filelist = {
     "ccpda/app/map.lua";
     "ccpda/app/todo.lua";

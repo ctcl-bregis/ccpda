@@ -1,16 +1,21 @@
+-- CCPDA for ComputerCraft/CC: Tweaked
+-- Purpose: To-Do List
+-- Created: ???, 2024
+-- Modified: March 8, 2025
+
 os.loadAPI("ccpda/utils.lua")
 
 config = textutils.unserializeJSON(utils.readFile("/ccpda/config.json"));
 
-if not utils.fileExists("/ccpda/todo.txt") then
-    f = fs.open("/ccpda/todo.txt", "w");
+if not utils.fileExists("/ccpda/data/todo.txt") then
+    f = fs.open("/ccpda/data/todo.txt", "w");
     f.write("");
     f.close();
 end
 
 selectedItem = 1;
 
-items = utils.readFileToLines("/ccpda/todo.txt");
+items = utils.readFileToLines("/ccpda/data/todo.txt");
 
 while true do
     utils.clear();
@@ -74,7 +79,7 @@ while true do
         local entry = read();
         items[#items + 1] = entry;
     end
-    f = io.open("/ccpda/todo.txt", "w");
+    f = io.open("/ccpda/data/todo.txt", "w");
     for index, item in pairs(items) do
         f:write(item, "\n");
     end
